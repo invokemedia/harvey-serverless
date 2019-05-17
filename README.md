@@ -10,6 +10,14 @@ Harvey brings Harvest time tracking into Slack to get your team quickly and easi
 * `npm install`
 * `cp serverless.yml.example serverless.yml`
 
+## Running Locally
+
+* `sls invoke local -f harvey`
+
+## Deploying to AWS
+
+* `sls deploy`
+
 ### Harvest Authentication
 
 You need to have a Bearer token for an *admin user* before you can use this script.
