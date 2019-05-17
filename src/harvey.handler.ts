@@ -32,7 +32,7 @@ export class HarveyHandler {
       console.log(e.message);
 
       cb(null, { statusCode: 200 });
-s
+
     }
   }
 
