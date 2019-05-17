@@ -2,7 +2,7 @@ import strings from './strings.config';
 
 export class AttachmentTransformer {
   static transform(user, timeEntries) {
-    const hours = timeEntries.reduce((total, x) => total + x);
+    const hours = timeEntries.reduce((total, t) => total + t.hours, 0);
     const missing = (user.weekly_capacity / 60 / 60) - hours;
     return {
       hours,

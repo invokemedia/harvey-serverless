@@ -1,5 +1,5 @@
 service:
-  name: harvey-redux
+  name: harvey-serverless
 
 # Add the serverless-webpack plugin
 plugins:
@@ -14,9 +14,8 @@ provider:
     SLACK_WEBHOOK_URL: slackWebhookUrl
 
 functions:
-  hello:
-    handler: src/handler.hello
+  harvey:
+    handler: src/bootstrap.handle
     events:
-      - http:
-          method: get
-          path: hello
+      - schedule: cron(0 1 ? * SAT *)
+        enabled: false

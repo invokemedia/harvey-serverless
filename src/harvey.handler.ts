@@ -11,7 +11,7 @@ export class HarveyHandler {
     private readonly slack: SlackClient
   ) { }
 
-  async handle(event: APIGatewayEvent, context: Context, cb: Callback) {
+  public handle = async (event: APIGatewayEvent, context: Context, cb: Callback) => {
     try {
       // Fetch time entries and users from Harvest
       const [users, timeEntries] = await Promise.all([this.harvest.getUsers(), this.harvest.getTimeEntries()]);
@@ -35,7 +35,7 @@ export class HarveyHandler {
       cb(null, { statusCode: 200 });
   
     } catch (e) {
-
+      
       console.log(e.message);
 
       cb(null, { statusCode: 200 });
@@ -44,8 +44,8 @@ export class HarveyHandler {
   }
 
   createAttachments(users, timeEntries) {
-    return users.map((u) => {
-      return AttachmentTransformer.transform(u, timeEntries.filter((t) => t.user.id))
+    return users.filter((u) => u.is_active).map((u) => {
+      return AttachmentTransformer.transform(u, timeEntries.filter((t) => u.id === t.user.id))
     });
   }
 }
