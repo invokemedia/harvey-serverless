@@ -23,16 +23,16 @@ Harvey brings Harvest time tracking into Slack to get your team quickly and easi
 > cp serverless.yml.example serverless.yml
 ```
 
-4. Deploy to AWS
-
-```
-> sls deploy
-```
-
-## Running Locally
+4. Test locally before deploying
 
 ```
 > sls invoke local -f harvey
+```
+
+5. Deploy to AWS
+
+```
+> sls deploy
 ```
 
 ### Harvest Authentication
