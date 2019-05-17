@@ -7,7 +7,7 @@ export class AttachmentTransformer {
     return {
       hours,
       missing,
-      fallback: strings.summary(null, null),
+      fallback: strings.summary(null, null, null, null),
       color: 'c93742',
       title: user.first_name,
       fields: [{
