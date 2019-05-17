@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import * as moment from 'moment';
 import { APIGatewayEvent, Callback, Context } from 'aws-lambda';
 import { AttachmentTransformer } from './attachment.transformer';
 import { HarvestClient } from './harvest.client';
@@ -13,14 +14,22 @@ export class HarveyHandler {
 
   public handle = async (event: APIGatewayEvent, context: Context, cb: Callback) => {
     try {
+      const start = moment().day(-6);
+      const from = start.format('YYYY-MM-DD');
+      // const startFormatted = start.format('dddd, MMMM Do YYYY');
+
+      const end = moment().day(0);
+      const to = end.format('YYYY-MM-DD');
+      // const endFormatted = end.format('dddd, MMMM Do YYYY');
+
       // Fetch time entries and users from Harvest
-      const [users, timeEntries] = await Promise.all([this.harvest.getUsers(), this.harvest.getTimeEntries()]);
+      const [users, timeEntries] = await Promise.all([this.harvest.getUsers(), this.harvest.getTimeEntries({ from, to })]);
 
       // Create Slack attachments
       const attachments = this.createAttachments(users, timeEntries).filter((a) => a.missing > 0);
   
       // Set plain text fallback message
-      const text = attachments.length > 0 ? strings.withAttachments(null, null) : strings.withoutAttachments();
+      const text = attachments.length > 0 ? strings.withAttachments(to, from) : strings.withoutAttachments();
   
       // Post message to Slack
       await this.slack.postMessage({ text, attachments });
