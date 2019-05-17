@@ -4,6 +4,8 @@
 
 Harvey brings Harvest time tracking into Slack to get your team quickly and easily tracking their hours and keep your projects running smoothly.
 
+## Setup
+
 1. Setup your [AWS Credentials](https://github.com/serverless/serverless/blob/master/docs/providers/aws/guide/credentials.md)
 2. Install [Serverless.js](https://serverless.com)
 
