@@ -29,7 +29,7 @@ Harvey brings Harvest time tracking into Slack to get your team quickly and easi
 > sls invoke local -f harvey
 ```
 
-5. Deploy to AWS
+5. Deploy to AWS 🎉
 
 ```
 > sls deploy
