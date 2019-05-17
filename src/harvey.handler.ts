@@ -29,7 +29,7 @@ export class HarveyHandler {
       const attachments = this.createAttachments(users, timeEntries).filter((a) => a.missing > 0);
   
       // Set plain text fallback message
-      const text = attachments.length > 0 ? strings.withAttachments(to, from) : strings.withoutAttachments();
+      const text = attachments.length > 0 ? strings.withAttachments(from, to) : strings.withoutAttachments();
   
       // Post message to Slack
       await this.slack.postMessage({ text, attachments });
