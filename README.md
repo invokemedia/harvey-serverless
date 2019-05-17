@@ -43,6 +43,14 @@ Visit the Harvest [Developer Tools](https://id.getharvest.com/developers) and cr
 
 Setup a Slack [Incoming Webhook](https://api.slack.com/incoming-webhooks) for Harvey to communicate with your Slack channel.
 
+## Removing Harvey
+
+We are sorry to see you go 👋
+
+```
+> sls remove
+```
+
 ## License
 
 Harvey is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
