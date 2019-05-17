@@ -15,10 +15,10 @@ export class HarvestClient {
   }
 
   getUsers() {
-    return this.client.get('users');
+    return this.client.get('users').then(({ data }) => data.users);
   }
 
   getTimeEntries(params: object = {}) {
-    return this.client.get('time_entries', { params });
+    return this.client.get('time_entries', { params }).then(({ data }) => data.time_entries);
   }
 }
