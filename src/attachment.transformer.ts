@@ -11,7 +11,7 @@ export class AttachmentTransformer {
       color: 'c93742',
       title: user.first_name,
       fields: [{
-        value: strings.missingHours(hours),
+        value: strings.missingHours(missing),
         short: true
       }]
     };
