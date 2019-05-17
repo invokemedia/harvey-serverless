@@ -37,13 +37,11 @@ Harvey brings Harvest time tracking into Slack to get your team quickly and easi
 
 ### Harvest Authentication
 
-You need to have a Bearer token for an *admin user* before you can use this script.
-
-Visit the [Harvest Developer Tools](https://id.getharvest.com/developers) and create a new [OAuth2 Application](https://id.getharvest.com/oauth2/clients/new). You can use `localhost` for the redirect_url for now to get started, you don't actually need any working server at this point.
+Visit the [Harvest Developer Tools](https://id.getharvest.com/developers) and create a new [Personal Access Token](https://help.getharvest.com/api-v2/authentication-api/authentication/authentication/#personal-access-tokens).
 
 ### Slack Incoming Webhook
 
-You will need to also [setup a Slack Webhook](https://api.slack.com/custom-integrations/incoming-webhooks) for the results to be sent to. Copy the Webhook URL into the slackUrl of the `config.json`.
+You will need to also [setup a Slack Incoming Webhook](https://api.slack.com/incoming-webhooks) for the results to be sent to. Copy the Webhook URL into the slackUrl of the `serverless.yml`.
 
 ## License
 
