@@ -17,4 +17,4 @@ functions:
     handler: src/bootstrap.handle
     events:
       - schedule: cron(0 1 ? * SAT *)
-        enabled: false
+        enabled: true
