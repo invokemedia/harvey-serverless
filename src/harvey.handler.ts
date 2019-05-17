@@ -3,7 +3,7 @@ import { APIGatewayEvent, Callback, Context } from 'aws-lambda';
 import { AttachmentTransformer } from './attachment.transformer';
 import { HarvestClient } from './harvest.client';
 import { SlackClient } from './slack.client';
-import strings from './strings.config';
+import strings from './strings.helper';
 
 export class HarveyHandler {
   constructor(

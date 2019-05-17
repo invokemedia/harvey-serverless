@@ -1,4 +1,4 @@
-import strings from './strings.config';
+import strings from './strings.helper';
 
 export class AttachmentTransformer {
   static transform(user, timeEntries) {
