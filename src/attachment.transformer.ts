@@ -7,11 +7,11 @@ export class AttachmentTransformer {
     return {
       hours,
       missing,
-      fallback: strings.summary,
+      fallback: strings.summary(null, null),
       color: 'c93742',
       title: user.first_name,
       fields: [{
-        value: strings.missingHours,
+        value: strings.missingHours(hours),
         short: true
       }]
     };

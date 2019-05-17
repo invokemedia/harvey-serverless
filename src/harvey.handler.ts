@@ -22,12 +22,10 @@ export class HarveyHandler {
       // });
 
       // Create Slack attachments
-      const attachments = this.createAttachments(users, timeEntries);
-
-      //.filter((a) => a.missing > 0);
+      const attachments = this.createAttachments(users, timeEntries).filter((a) => a.missing > 0);
   
       // Set plain text fallback message
-      const text = attachments.length > 0 ? strings.withAttachments : strings.withoutAttachments;
+      const text = attachments.length > 0 ? strings.withAttachments(null, null) : strings.withoutAttachments();
   
       // Post message to Slack
       await this.slack.postMessage({ text, attachments });
