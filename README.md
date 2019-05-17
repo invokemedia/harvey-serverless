@@ -37,11 +37,11 @@ Harvey brings Harvest time tracking into Slack to get your team quickly and easi
 
 ### Harvest Authentication
 
-Visit the [Harvest Developer Tools](https://id.getharvest.com/developers) and create a new [Personal Access Token](https://help.getharvest.com/api-v2/authentication-api/authentication/authentication/#personal-access-tokens) to give Harvey access to your time entries in Harvest.
+Visit the Harvest [Developer Tools](https://id.getharvest.com/developers) and create a new [Personal Access Token](https://help.getharvest.com/api-v2/authentication-api/authentication/authentication/#personal-access-tokens) to give Harvey access to your time entries in Harvest.
 
-### Slack Incoming Webhook
+### Posting to Slack
 
-Setup a [Slack Incoming Webhook](https://api.slack.com/incoming-webhooks) for Harvey to communicate with your Slack channel.
+Setup a Slack [Incoming Webhook](https://api.slack.com/incoming-webhooks) for Harvey to communicate with your Slack channel.
 
 ## License
 
