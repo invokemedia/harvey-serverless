@@ -15,8 +15,8 @@ export class HarveyHandler {
   public handle = async (event: APIGatewayEvent, context: Context, cb: Callback) => {
     try {
       // Determine start and end dates
-      const from = moment().day(-6).format('YYYY-MM-DD');
-      const to = moment().day(0).format('YYYY-MM-DD');
+      const from = moment().subtract(6, 'days').format('YYYY-MM-DD');
+      const to = moment().format('YYYY-MM-DD');
 
       // Fetch time entries and users from Harvest
       const [users, timeEntries] = await Promise.all([this.harvest.getUsers(), this.harvest.getTimeEntries({ from, to })]);
