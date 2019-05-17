@@ -7,10 +7,10 @@ Harvey
 
 ## Setup
 
-* `git clone git@github.com:invokemedia/harvey.git`
-* `cd harvey`
+* `git clone git@github.com:invokemedia/harvey-serverless.git`
+* `cd harvey-serverless`
 * `npm install`
-* `cp config-example.json config.json`
+* `cp serverless.yml.example serverless.yml`
 
 ### Harvest Authentication
 
