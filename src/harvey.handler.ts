@@ -15,11 +15,6 @@ export class HarveyHandler {
     try {
       // Fetch time entries and users from Harvest
       const [users, timeEntries] = await Promise.all([this.harvest.getUsers(), this.harvest.getTimeEntries()]);
-  
-      // ...
-      // const filteredUsers = users.filter((u) => {
-        // return u.is_active && u.is_contractor === false && u.cost_rate !== null;
-      // });
 
       // Create Slack attachments
       const attachments = this.createAttachments(users, timeEntries).filter((a) => a.missing > 0);
@@ -37,13 +32,14 @@ export class HarveyHandler {
       console.log(e.message);
 
       cb(null, { statusCode: 200 });
-
+s
     }
   }
 
   createAttachments(users, timeEntries) {
-    return users.filter((u) => u.is_active).map((u) => {
-      return AttachmentTransformer.transform(u, timeEntries.filter((t) => u.id === t.user.id))
-    });
+    return users.filter((u) => u.is_active)
+      .map((u) => {
+        return AttachmentTransformer.transform(u, timeEntries.filter((t) => u.id === t.user.id))
+      });
   }
 }

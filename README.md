@@ -41,7 +41,7 @@ Visit the [Harvest Developer Tools](https://id.getharvest.com/developers) and cr
 
 ### Slack Incoming Webhook
 
-You will need to [setup a Slack Incoming Webhook](https://api.slack.com/incoming-webhooks) for Harvey to communicate with your Slack channel.
+Setup a [Slack Incoming Webhook](https://api.slack.com/incoming-webhooks) for Harvey to communicate with your Slack channel.
 
 ## License
 
