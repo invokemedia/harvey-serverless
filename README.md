@@ -1,9 +1,7 @@
 Harvey
 ======
 
-> Harvey is a Slack bot that can report the hours from Harvest for your team on a weekly or monthly basis.
-
-![harvey screenshot](https://raw.githubusercontent.com/invokemedia/harvey/master/screenshot.png)
+Harvey brings Harvest time tracking into Slack to get your team quickly and easily tracking their hours and keep your projects running smoothly.
 
 ## Setup
 
