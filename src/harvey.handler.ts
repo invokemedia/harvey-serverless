@@ -15,8 +15,29 @@ export class HarveyHandler {
   public handle = async (event: APIGatewayEvent, context: Context, cb: Callback) => {
     try {
       // Determine start and end dates
-      const from = moment().subtract(1, 'days').format('YYYY-MM-DD');
       const to = moment().format('YYYY-MM-DD');
+      const dayOfWeek = moment().day();
+
+      let fromDelta;
+      switch (dayOfWeek) {
+        case 1: // Monday
+          fromDelta = 7;
+          break;
+        case 2: // Tuesday
+          fromDelta = 1;
+          break;
+        case 3: // Wednesday
+          fromDelta = 2;
+          break;
+        case 4: // Thursday
+          fromDelta = 3;
+          break;
+        case 5: // Friday
+          fromDelta = 4;
+          break;
+      };
+
+      const from = moment().subtract(fromDelta, 'days').format('YYYY-MM-DD');
 
       // Fetch time entries and users from Harvest
       const [users, timeEntries] = await Promise.all([this.harvest.getUsers(), this.harvest.getTimeEntries({ from, to })]);

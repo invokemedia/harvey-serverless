@@ -13,11 +13,23 @@ export class AttachmentTransformer {
       5: 0.8
     };
     const missing = ((user.weekly_capacity / 60 / 60) * dowFactor[dow]) - hours;
+    let color;
+    if (missing >= 32) {
+      color = 'FE2908'; // red
+    } else if (missing >= 24) {
+      color = 'FE7B08'; // deep orange
+    } else if (missing >= 16) {
+      color = 'FED508'; // orange
+    } else if (missing >= 8) {
+      color = 'FEF613'; // yellow
+    } else {
+      color = '0BBF4D'; // greenish
+    }
     return {
       hours,
       missing,
       fallback: strings.summary(user.first_name, hours, null, null),
-      color: 'c93742',
+      color,
       title: `${user.first_name} ${user.last_name}`,
       fields: [{
         value: strings.missingHours(missing),
