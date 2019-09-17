@@ -15,7 +15,7 @@ export class HarveyHandler {
   public handle = async (event: APIGatewayEvent, context: Context, cb: Callback) => {
     try {
       // Determine start and end dates
-      const to = moment().subtract(2, 'days').format('YYYY-MM-DD');
+      const to = moment().format('YYYY-MM-DD');
       console.log('to: ' + to);
       const dayOfWeek = moment().day();
 
@@ -38,7 +38,7 @@ export class HarveyHandler {
           break;
       };
 
-      const from = moment().subtract(9, 'days').format('YYYY-MM-DD');
+      const from = moment().subtract(fromDelta, 'days').format('YYYY-MM-DD');
       console.log('from: ' + from);
 
       // Fetch time entries and users from Harvest
@@ -48,7 +48,7 @@ export class HarveyHandler {
       const attachments = this.createAttachments(users, timeEntries).filter((a) => a.missing > 0);
 
       // Set plain text fallback message
-      const text = attachments.length > 0 ? strings.withAttachments(from, to) : strings.withoutAttachments();
+      const text = attachments.length > 0 ? strings.withAttachments(from, to, dayOfWeek) : strings.withoutAttachments();
 
       // Post message to Slack
       await this.slack.postMessage({ text, attachments });
