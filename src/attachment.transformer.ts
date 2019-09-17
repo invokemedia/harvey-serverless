@@ -3,10 +3,12 @@ import * as moment from 'moment';
 
 export class AttachmentTransformer {
   static transform(user, timeEntries) {
+    // console.log(timeEntries);
     const hours = timeEntries.reduce((total, t) => total + t.hours, 0);
+    console.log('hours', hours);
     const dow = moment().day();
     const dowFactor = {
-      1: 0.0,
+      1: 1.0,
       2: 0.2,
       3: 0.4,
       4: 0.6,

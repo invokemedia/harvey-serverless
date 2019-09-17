@@ -2,7 +2,7 @@ import Axios, { AxiosInstance } from 'axios';
 
 export class HarvestClient {
   private readonly client: AxiosInstance;
-  
+
   constructor(token: string, accountId: string) {
     this.client = Axios.create({
       baseURL: 'https://api.harvestapp.com/v2',
@@ -18,7 +18,18 @@ export class HarvestClient {
     return this.client.get('users').then(({ data }) => data.users);
   }
 
-  getTimeEntries(params: object = {}) {
-    return this.client.get('time_entries', { params }).then(({ data }) => data.time_entries);
+  async getTimeEntries(params, page = 1, entries = []) {
+    const newParams = { ...params, page };
+    const newEntries = await this.client.get('time_entries', { params: newParams }).then(({ data }) => {
+      return data.time_entries
+    });
+    entries = entries.concat(newEntries);
+
+    if (newEntries.length == 100 && page < 10) {
+      console.log('recursive entries', entries.length);
+      return await this.getTimeEntries(params, page + 1, entries);
+    }
+
+    return entries;
   }
 }
