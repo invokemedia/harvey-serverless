@@ -9,7 +9,8 @@ import strings from './strings.helper';
 export class HarveyHandler {
   constructor(
     private readonly harvest: HarvestClient,
-    private readonly slack: SlackClient
+    private readonly slack: SlackClient,
+    private readonly execSlack: SlackClient
   ) { }
 
   public handle = async (event: APIGatewayEvent, context: Context, cb: Callback) => {
@@ -44,19 +45,8 @@ export class HarveyHandler {
       // Fetch time entries and users from Harvest
       const [users, timeEntries] = await Promise.all([this.harvest.getUsers(), this.harvest.getTimeEntries({ from, to })]);
 
-      // Create Slack attachments
-      const attachments = this.createAttachments(users, timeEntries).filter((a) => a.missing > 0);
-
-      // Adding in the sorting logic for the attachments.
-      attachments.sort((a, b) => {
-        return b.missing - a.missing
-      });
-
-      // Set plain text fallback message
-      const text = attachments.length > 0 ? strings.withAttachments(from, to, dayOfWeek) : strings.withoutAttachments();
-
-      // Post message to Slack
-      await this.slack.postMessage({ text, attachments });
+      this.sendMessages(users, timeEntries, from, to, dayOfWeek, 'general');
+      // this.sendMessages(users, timeEntries, from, to, dayOfWeek, 'exec');
 
       cb(null, { statusCode: 200 });
 
@@ -69,10 +59,33 @@ export class HarveyHandler {
     }
   }
 
-  createAttachments(users, timeEntries) {
-    console.log('users', users);
+  async sendMessages(users, timeEntries, from, to, dayOfWeek, type) {
+    // Create Slack attachments
+    const attachments = this.createAttachments(users, timeEntries, type).filter((a) => a.missing > 0);
+
+    // Adding in the sorting logic for the attachments.
+    attachments.sort((a, b) => {
+      return b.missing - a.missing
+    });
+
+    // Set plain text fallback message
+    const text = attachments.length > 0 ? strings.withAttachments(from, to, dayOfWeek) : strings.withoutAttachments();
+
+    // Post message to Slack
+    if (type == 'exec') {
+      await this.execSlack.postMessage({ text, attachments });
+    } else {
+      await this.slack.postMessage({ text, attachments });
+    }
+  }
+
+  createAttachments(users, timeEntries, type) {
     return users.filter((u) => {
-      return u.is_active && !u.roles.includes("Exec")
+      if (type == "exec") {
+        return u.is_active && u.roles.includes("Exec")
+      } else {
+        return u.is_active && !u.roles.includes("Exec")
+      }
     }
     )
       .map((u) => {
