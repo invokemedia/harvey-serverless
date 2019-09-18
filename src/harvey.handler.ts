@@ -38,17 +38,23 @@ export class HarveyHandler {
           break;
       };
 
+      // Setting the from to just be from the beginning of the week unless it is Monday.
       const from = moment().subtract(fromDelta, 'days').format('YYYY-MM-DD');
-      console.log('from: ' + from);
 
       // Fetch time entries and users from Harvest
       const [users, timeEntries] = await Promise.all([this.harvest.getUsers(), this.harvest.getTimeEntries({ from, to })]);
-      console.log('HarveyHandler timeEntries', timeEntries.length);
+
       // Create Slack attachments
       const attachments = this.createAttachments(users, timeEntries).filter((a) => a.missing > 0);
 
+      // Adding in the sorting logic for the attachments.
+      attachments.sort((a, b) => {
+        return b.missing - a.missing
+      });
+
       // Set plain text fallback message
       const text = attachments.length > 0 ? strings.withAttachments(from, to, dayOfWeek) : strings.withoutAttachments();
+
 
       // Post message to Slack
       await this.slack.postMessage({ text, attachments });
