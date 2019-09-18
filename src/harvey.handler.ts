@@ -55,7 +55,6 @@ export class HarveyHandler {
       // Set plain text fallback message
       const text = attachments.length > 0 ? strings.withAttachments(from, to, dayOfWeek) : strings.withoutAttachments();
 
-
       // Post message to Slack
       await this.slack.postMessage({ text, attachments });
 
@@ -71,7 +70,11 @@ export class HarveyHandler {
   }
 
   createAttachments(users, timeEntries) {
-    return users.filter((u) => u.is_active)
+    console.log('users', users);
+    return users.filter((u) => {
+      return u.is_active && !u.roles.includes("Exec")
+    }
+    )
       .map((u) => {
         return AttachmentTransformer.transform(u, timeEntries.filter((t) => u.id === t.user.id))
       });
