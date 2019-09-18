@@ -26,7 +26,6 @@ export class HarvestClient {
     entries = entries.concat(newEntries);
 
     if (newEntries.length == 100 && page < 10) {
-      console.log('recursive entries', entries.length);
       return await this.getTimeEntries(params, page + 1, entries);
     }
 

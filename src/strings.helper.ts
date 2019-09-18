@@ -3,7 +3,7 @@ export default {
   missingHours: (hours) => `Missing ${hours} hours`,
   withAttachments: (from, to, dayOfWeek) => {
     if (dayOfWeek == 1) {
-      return `*Happy Monday!* These team members still have to add hours from *last week*!`
+      return `*Happy Monday!* These team members still have to add hours and submit their timesheets from *last week*!`
     } else {
       return `*Almost there!* These team members still have to add hours from earlier this week!`
     }
