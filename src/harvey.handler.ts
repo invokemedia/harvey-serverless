@@ -69,7 +69,7 @@ export class HarveyHandler {
       return b.missing - a.missing
     });
 
-    const slackNames = attachments.map(attachment => attachment.slackName).join(', ');
+    const slackNames = attachments.map(attachment => attachment.slackName).join(' ');
 
     // Set plain text fallback message
     const text = attachments.length > 0 ? strings.withAttachments(slackNames, from, to, dayOfWeek) : strings.withoutAttachments();
