@@ -3,9 +3,7 @@ import * as moment from 'moment';
 
 export class AttachmentTransformer {
   static transform(user, timeEntries) {
-    // console.log(timeEntries);
     const hours = timeEntries.reduce((total, t) => total + t.hours, 0);
-    console.log('hours', hours);
     const dow = moment().day();
     const dowFactor = {
       1: 1.0,
@@ -32,6 +30,7 @@ export class AttachmentTransformer {
       missing,
       fallback: strings.summary(user.first_name, hours, null, null),
       color,
+      slackName: `@${user.slackName}`,
       title: `${user.first_name} ${user.last_name}`,
       fields: [{
         value: strings.missingHours(missing),

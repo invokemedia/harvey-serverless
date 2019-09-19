@@ -4,20 +4,21 @@ import { APIGatewayEvent, Callback, Context } from 'aws-lambda';
 import { AttachmentTransformer } from './attachment.transformer';
 import { HarvestClient } from './harvest.client';
 import { SlackClient } from './slack.client';
+import { WebClient } from '@slack/web-api';
 import strings from './strings.helper';
 
 export class HarveyHandler {
   constructor(
     private readonly harvest: HarvestClient,
     private readonly slack: SlackClient,
-    private readonly execSlack: SlackClient
+    private readonly execSlack: SlackClient,
+    private readonly slackAPI: WebClient
   ) { }
 
   public handle = async (event: APIGatewayEvent, context: Context, cb: Callback) => {
     try {
       // Determine start and end dates
       const to = moment().format('YYYY-MM-DD');
-      console.log('to: ' + to);
       const dayOfWeek = moment().day();
 
       let fromDelta;
@@ -43,10 +44,10 @@ export class HarveyHandler {
       const from = moment().subtract(fromDelta, 'days').format('YYYY-MM-DD');
 
       // Fetch time entries and users from Harvest
-      const [users, timeEntries] = await Promise.all([this.harvest.getUsers(), this.harvest.getTimeEntries({ from, to })]);
+      const [slackUsers, users, timeEntries] = await Promise.all([this.getSlackProfiles(), this.harvest.getUsers(), this.harvest.getTimeEntries({ from, to })]);
 
-      this.sendMessages(users, timeEntries, from, to, dayOfWeek, 'general');
-      // this.sendMessages(users, timeEntries, from, to, dayOfWeek, 'exec');
+      this.sendMessages(slackUsers, users, timeEntries, from, to, dayOfWeek, 'general');
+      //   // this.sendMessages(users, timeEntries, from, to, dayOfWeek, 'exec');
 
       cb(null, { statusCode: 200 });
 
@@ -59,18 +60,19 @@ export class HarveyHandler {
     }
   }
 
-  async sendMessages(users, timeEntries, from, to, dayOfWeek, type) {
+  async sendMessages(slackUsers, users, timeEntries, from, to, dayOfWeek, type) {
     // Create Slack attachments
-    const attachments = this.createAttachments(users, timeEntries, type).filter((a) => a.missing > 0);
+    const attachments = this.createAttachments(slackUsers, users, timeEntries, type).filter((a) => a.missing > 2);
 
     // Adding in the sorting logic for the attachments.
     attachments.sort((a, b) => {
       return b.missing - a.missing
     });
 
-    // Set plain text fallback message
-    const text = attachments.length > 0 ? strings.withAttachments(from, to, dayOfWeek) : strings.withoutAttachments();
+    const slackNames = attachments.map(attachment => attachment.slackName).join(', ');
 
+    // Set plain text fallback message
+    const text = attachments.length > 0 ? strings.withAttachments(slackNames, from, to, dayOfWeek) : strings.withoutAttachments();
     // Post message to Slack
     if (type == 'exec') {
       await this.execSlack.postMessage({ text, attachments });
@@ -79,7 +81,12 @@ export class HarveyHandler {
     }
   }
 
-  createAttachments(users, timeEntries, type) {
+  async getSlackProfiles() {
+    const response = await this.slackAPI.users.list();
+    return response.members;
+  }
+
+  createAttachments(slackUsers, users, timeEntries, type) {
     return users.filter((u) => {
       if (type == "exec") {
         return u.is_active && u.roles.includes("Exec")
@@ -89,6 +96,10 @@ export class HarveyHandler {
     }
     )
       .map((u) => {
+        var slackUser = slackUsers.find(slackUser => {
+          return slackUser.profile.email == u.email
+        })
+        u.slackName = slackUser.name;
         return AttachmentTransformer.transform(u, timeEntries.filter((t) => u.id === t.user.id))
       });
   }
