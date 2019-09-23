@@ -9,12 +9,10 @@ export default {
     }
   },
   withoutAttachments: dayOfWeek => {
-
     if (dayOfWeek == 1) {
       return '*Happy Monday!* Everyone entered in all their hours last week! Hooray!  Please remember to *submit* last week\'s hours too if you haven\'t already.  Hmmm... maybe there\'s an API for that...'
     } else {
       return '*Nicely done, folks!* I’ve got no reminders for you, because *everyone has already entered their hours.* Keep it up!'
     }
-
   }
 };
