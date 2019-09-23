@@ -8,5 +8,13 @@ export default {
       return `*Almost there!* These team members still have to add hours from earlier this week: ${slackNames}`
     }
   },
-  withoutAttachments: () => '*Nicely done, folks!* I’ve got no reminders for you, because *everyone has already entered their hours.* Keep it up!'
+  withoutAttachments: dayOfWeek => {
+
+    if (dayOfWeek == 1) {
+      return '*Happy Monday!* Everyone entered in all their hours last week! Hooray!  Please remember to *submit* last week\'s hours too if you haven\'t already.  Hmmm... maybe there\'s an API for that...'
+    } else {
+      return '*Nicely done, folks!* I’ve got no reminders for you, because *everyone has already entered their hours.* Keep it up!'
+    }
+
+  }
 };

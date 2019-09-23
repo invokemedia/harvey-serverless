@@ -47,7 +47,7 @@ export class HarveyHandler {
       const [slackUsers, users, timeEntries] = await Promise.all([this.getSlackProfiles(), this.harvest.getUsers(), this.harvest.getTimeEntries({ from, to })]);
 
       this.sendMessages(slackUsers, users, timeEntries, from, to, dayOfWeek, 'general');
-      //   // this.sendMessages(users, timeEntries, from, to, dayOfWeek, 'exec');
+      this.sendMessages(slackUsers, users, timeEntries, from, to, dayOfWeek, 'exec');
 
       cb(null, { statusCode: 200 });
 
@@ -72,12 +72,14 @@ export class HarveyHandler {
     const slackNames = attachments.map(attachment => attachment.slackName).join(' ');
 
     // Set plain text fallback message
-    const text = attachments.length > 0 ? strings.withAttachments(slackNames, from, to, dayOfWeek) : strings.withoutAttachments();
+    const text = attachments.length > 0 ? strings.withAttachments(slackNames, from, to, dayOfWeek) : strings.withoutAttachments(dayOfWeek);
+    console.log('Text', text);
+
     // Post message to Slack
     if (type == 'exec') {
-      await this.execSlack.postMessage({ text, attachments });
+      // await this.execSlack.postMessage({ text, attachments });
     } else {
-      await this.slack.postMessage({ text, attachments });
+      // await this.slack.postMessage({ text, attachments });
     }
   }
 
@@ -99,7 +101,11 @@ export class HarveyHandler {
         var slackUser = slackUsers.find(slackUser => {
           return slackUser.profile.email == u.email
         })
-        u.slackName = slackUser.name;
+        if (slackUser) {
+          u.slackName = slackUser.name;
+        } else {
+          console.log('u', u);
+        }
         return AttachmentTransformer.transform(u, timeEntries.filter((t) => u.id === t.user.id))
       });
   }
