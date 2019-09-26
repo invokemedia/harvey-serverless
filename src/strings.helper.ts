@@ -1,11 +1,11 @@
 export default {
   summary: (firstName, hours, from, to) => `Almost there! So far, ${firstName} has entered ${hours} hours for the week of ${from} to ${to}.`,
   missingHours: (hours) => `Missing ${hours} hours`,
-  withAttachments: (slackNames, from, to, dayOfWeek) => {
+  withAttachments: (slackIds, from, to, dayOfWeek) => {
     if (dayOfWeek == 1) {
-      return `*Happy Monday!* These team members still have to add hours and submit their timesheets from *last week*: ${slackNames}`
+      return `*Happy Monday!* These team members still have to add hours and submit their timesheets from *last week*: ${slackIds}`
     } else {
-      return `*Almost there!* These team members still have to add hours from earlier this week: ${slackNames}`
+      return `*Almost there!* These team members still have to add hours from earlier this week: ${slackIds}`
     }
   },
   withoutAttachments: dayOfWeek => {

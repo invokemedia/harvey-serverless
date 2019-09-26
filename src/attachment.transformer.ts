@@ -30,7 +30,7 @@ export class AttachmentTransformer {
       missing,
       fallback: strings.summary(user.first_name, hours, null, null),
       color,
-      slackName: `@${user.slackName}`,
+      slackId: `<@${user.slackId}>`,
       title: `${user.first_name} ${user.last_name}`,
       fields: [{
         value: strings.missingHours(missing),
