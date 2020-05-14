@@ -2,17 +2,19 @@ import strings from './strings.helper';
 import * as moment from 'moment';
 
 export class AttachmentTransformer {
-  static transform(user, timeEntries) {
+  // factor allows us to create flexiblity in the system.
+  static transform(user, timeEntries, factor = 1) {
     const hours = timeEntries.reduce((total, t) => total + t.hours, 0);
-    const dow = moment().day();
-    const dowFactor = {
-      1: 1.0,
-      2: 0.2,
-      3: 0.4,
-      4: 0.6,
-      5: 0.8
+    const dayOfWeek = moment().day();
+    const dayOfWeekFactor = {
+      1: 1.0 * factor,
+      2: 0.2 * factor,
+      3: 0.4 * factor,
+      4: 0.6 * factor,
+      5: 0.8 * factor,
     };
-    const missing = ((user.weekly_capacity / 60 / 60) * dowFactor[dow]) - hours;
+    const missing =
+      (user.weekly_capacity / 60 / 60) * dayOfWeekFactor[dayOfWeek] - hours;
     let color;
     if (missing >= 32) {
       color = 'FE2908'; // red
@@ -27,15 +29,17 @@ export class AttachmentTransformer {
     }
     return {
       hours,
-      missing,
-      fallback: strings.summary(user.first_name, hours, null, null),
+      missing: Math.round(missing),
+      fallback: strings.summary(user.first_name, hours),
       color,
       slackId: `<@${user.slackId}>`,
       title: `${user.first_name} ${user.last_name}`,
-      fields: [{
-        value: strings.missingHours(missing),
-        short: true
-      }]
+      fields: [
+        {
+          value: strings.missingHours(Math.round(missing)),
+          short: true,
+        },
+      ],
     };
   }
 }
