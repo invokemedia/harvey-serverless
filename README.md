@@ -51,6 +51,20 @@ We are sorry to see you go 👋
 > sls remove
 ```
 
+## Managing the Serverless instance
+
+https://console.aws.amazon.com/lambda is where the scheduler is.
+
+Configuration: https://console.aws.amazon.com/lambda/home?region=us-east-1#/functions/harvey-dev-harvey?tab=configuration
+
+To test run it in THE PROD ENVIRONMENT, which means that everyone is going to get the SLACK messages unless you comment out, you can run a TEST with the Run test.
+
+```
+// In harvey.handler.ts
+// await this.execSlack.postMessage({ text, attachments });
+// await this.slack.postMessage({ text, attachments });
+```
+
 ## License
 
 Harvey is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).

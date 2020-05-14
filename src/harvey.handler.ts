@@ -115,14 +115,14 @@ export class HarveyHandler {
       attachments.length > 0
         ? strings.withAttachments(slackIds, from, to, dayOfWeek)
         : strings.withoutAttachments(dayOfWeek);
-    console.log('Text', text);
-    console.log('attachments', attachments);
+    // console.log('Text', text);
+    // console.log('attachments', attachments);
 
     // Post message to Slack
     if (type == 'exec') {
       await this.execSlack.postMessage({ text, attachments });
     } else {
-      // await this.slack.postMessage({ text, attachments });
+      await this.slack.postMessage({ text, attachments });
     }
   }
 
