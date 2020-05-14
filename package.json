@@ -11,7 +11,8 @@
     "@types/lodash": "^4.14.129",
     "axios": "^0.18.0",
     "lodash": "^4.17.11",
-    "moment": "^2.24.0"
+    "moment": "^2.24.0",
+    "graceful-fs": "^4.2.2"
   },
   "devDependencies": {
     "@types/aws-lambda": "8.10.1",

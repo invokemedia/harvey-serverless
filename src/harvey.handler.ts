@@ -120,7 +120,7 @@ export class HarveyHandler {
 
     // Post message to Slack
     if (type == 'exec') {
-      //await this.execSlack.postMessage({ text, attachments });
+      await this.execSlack.postMessage({ text, attachments });
     } else {
       // await this.slack.postMessage({ text, attachments });
     }
