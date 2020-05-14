@@ -97,7 +97,9 @@ export class HarveyHandler {
       users,
       timeEntries,
       type
-    ).filter((a) => a.missing > 2);
+    )
+      // filter by only people who are missing MORE than 4 hours.
+      .filter((a) => a.missing > 4);
 
     // Adding in the sorting logic for the attachments.
     attachments.sort((a, b) => {
