@@ -17,7 +17,7 @@ Harvey brings Harvest time tracking into Slack to get your team quickly and easi
 3. Download and configure Harvey
 
 ```
-> git clone git@github.com:invokemedia/harvey-serverless.git
+> git clone git@github.com:giantmachines/harvey-serverless.git
 > cd harvey-serverless
 > npm install
 > cp serverless.yml.example serverless.yml

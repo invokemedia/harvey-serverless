@@ -27,7 +27,7 @@ export class HarveyHandler {
 
       let fromDelta;
       switch (dayOfWeek) {
-        case 1: // Monday
+        case 1: // Monday we actually look at last weeks timesheet.
           fromDelta = 7;
           break;
         case 2: // Tuesday
@@ -115,15 +115,15 @@ export class HarveyHandler {
       attachments.length > 0
         ? strings.withAttachments(slackIds, from, to, dayOfWeek)
         : strings.withoutAttachments(dayOfWeek);
-    // console.log('Text', text);
-    // console.log('attachments', attachments);
+    console.log('Text', text);
+    console.log('attachments', attachments);
 
     // Post message to Slack
-    if (type == 'exec') {
-      await this.execSlack.postMessage({ text, attachments });
-    } else {
-      await this.slack.postMessage({ text, attachments });
-    }
+    // if (type == 'exec') {
+    //   await this.execSlack.postMessage({ text, attachments });
+    // } else {
+    //   await this.slack.postMessage({ text, attachments });
+    // }
   }
 
   async getSlackProfiles() {
@@ -131,28 +131,28 @@ export class HarveyHandler {
     return response.members;
   }
 
-  createAttachments(slackUsers, users, timeEntries, type) {
-    return users
-      .filter((u) => {
+  createAttachments(slackUsers, harvestUsers, timeEntries, type) {
+    return harvestUsers
+      .filter((harvestUser) => {
         if (type == 'exec') {
-          return u.is_active && u.roles.includes('Exec');
+          return harvestUser.is_active && harvestUser.roles.includes('Exec');
         } else {
-          return u.is_active && !u.roles.includes('Exec');
+          return harvestUser.is_active && !harvestUser.roles.includes('Exec');
         }
       })
-      .map((u) => {
+      .map((harvestUser) => {
         var slackUser = slackUsers.find((slackUser) => {
-          return slackUser.profile.email == u.email;
+          return slackUser.profile.email == harvestUser.email;
         });
         if (slackUser) {
-          u.slackId = slackUser.id;
+          harvestUser.slackId = slackUser.id;
         } else {
-          console.log('****** MISSING SLACK USER', u);
+          console.log('****** MISSING SLACK USER', harvestUser);
         }
         return AttachmentTransformer.transform(
-          u,
-          timeEntries.filter((t) => u.id === t.user.id),
-          u.roles.includes('Flexible') ? 0.8 : 1
+          harvestUser,
+          timeEntries.filter((t) => harvestUser.id === t.user.id),
+          harvestUser.roles.includes('Flexible') ? 0.8 : 1
         );
       });
   }
