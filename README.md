@@ -29,6 +29,14 @@ Harvey brings Harvest time tracking into Slack to get your team quickly and easi
 > sls invoke local -f harvey
 ```
 
+Please note that even when testing locally, _YOU WILL BE SENDING MESSAGES TO SLACK_ unless you disable:
+
+```
+// In harvey.handler.ts
+// await this.execSlack.postMessage({ text, attachments });
+// await this.slack.postMessage({ text, attachments });
+```
+
 5. Deploy to AWS 🎉
 
 ```
