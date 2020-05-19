@@ -51,6 +51,12 @@ We are sorry to see you go 👋
 > sls remove
 ```
 
+# Giant Machines Specific
+
+To add people to the exec team so that they only show their updates on the #exec-all channel, add them to the Exec group in Harvest.
+
+To add people to the flexible group so that they only need to record up to 32 hours a week, then add them to the Flexible group in Harvest: https://giantmachines.harvestapp.com/roles
+
 ## Managing the Serverless instance
 
 https://console.aws.amazon.com/lambda is where the scheduler is.
