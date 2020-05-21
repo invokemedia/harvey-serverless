@@ -23,18 +23,18 @@ Harvey brings Harvest time tracking into Slack to get your team quickly and easi
 > cp serverless.yml.example serverless.yml
 ```
 
-4. Test locally before deploying
+4. Test locally during development
+
+```
+> sls invoke local -f harvey-test
+```
+
+This will only send messages (for both the General and exec-all channels) to the #harvest-bot-test channel set up specifically for local testing.
+
+To send messages to the real #general and #exec-all channels you would run
 
 ```
 > sls invoke local -f harvey
-```
-
-Please note that even when testing locally, _YOU WILL BE SENDING MESSAGES TO SLACK_ unless you disable:
-
-```
-// In harvey.handler.ts
-// await this.execSlack.postMessage({ text, attachments });
-// await this.slack.postMessage({ text, attachments });
 ```
 
 5. Deploy to AWS 🎉
@@ -56,7 +56,9 @@ Setup a Slack [Incoming Webhook](https://api.slack.com/incoming-webhooks) for Ha
 We are sorry to see you go 👋
 
 ```
+
 > sls remove
+
 ```
 
 # Giant Machines Specific
@@ -74,9 +76,11 @@ Configuration: https://console.aws.amazon.com/lambda/home?region=us-east-1#/func
 To test run it in THE PROD ENVIRONMENT, which means that everyone is going to get the SLACK messages unless you comment out, you can run a TEST with the Run test.
 
 ```
+
 // In harvey.handler.ts
 // await this.execSlack.postMessage({ text, attachments });
 // await this.slack.postMessage({ text, attachments });
+
 ```
 
 ## License
