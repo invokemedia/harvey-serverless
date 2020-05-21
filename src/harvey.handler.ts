@@ -7,14 +7,28 @@ import { SlackClient } from './slack.client';
 import { WebClient } from '@slack/web-api';
 import strings from './strings.helper';
 
+interface Options {
+  harvest: HarvestClient;
+  slackAPI: WebClient;
+  slack?: SlackClient;
+  execSlack?: SlackClient;
+  testSlack?: SlackClient;
+}
+
 export class HarveyHandler {
-  constructor(
-    private readonly harvest: HarvestClient,
-    private readonly slack: SlackClient,
-    private readonly execSlack: SlackClient,
-    private readonly testSlack: SlackClient,
-    private readonly slackAPI: WebClient
-  ) {}
+  private harvest: HarvestClient;
+  private slack: SlackClient;
+  private execSlack: SlackClient;
+  private testSlack: SlackClient;
+  private slackAPI: WebClient;
+
+  constructor({ harvest, slackAPI, slack, execSlack, testSlack }: Options) {
+    this.harvest = harvest;
+    this.slackAPI = slackAPI;
+    this.slack = slack;
+    this.execSlack = execSlack;
+    this.testSlack = testSlack;
+  }
 
   public handle = async (
     event: APIGatewayEvent,
@@ -119,15 +133,18 @@ export class HarveyHandler {
     console.log('Text', text);
     console.log('attachments', attachments);
 
-    // Post message to Slack
-    // if (type == 'exec') {
-    //   await this.execSlack.postMessage({ text, attachments });
-    // } else {
-    //   await this.slack.postMessage({ text, attachments });
-    // }
+    // Post any message to test Slack channel
+    if (this.testSlack) {
+      await this.testSlack.postMessage({ text, attachments });
+    }
 
-    // Post message to test Slack channel
-    await this.testSlack.postMessage({ text, attachments });
+    if (this.slack && this.execSlack) {
+      if (type == 'exec') {
+        await this.execSlack.postMessage({ text, attachments });
+      } else {
+        await this.slack.postMessage({ text, attachments });
+      }
+    }
   }
 
   async getSlackProfiles() {

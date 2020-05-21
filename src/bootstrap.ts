@@ -12,12 +12,18 @@ const slack = new SlackClient(process.env.SLACK_WEBHOOK_URL);
 const execSlack = new SlackClient(process.env.SLACK_EXEC_ALL_WEBHOOK_URL);
 const testSlack = new SlackClient(process.env.SLACK_TEST_WEBHOOK_URL);
 const slackAPI = new WebClient(process.env.SLACK_TOKEN);
-const handler = new HarveyHandler(
+const handler = new HarveyHandler({
   harvest,
+  slackAPI,
   slack,
   execSlack,
+});
+
+const handlerTest = new HarveyHandler({
+  harvest,
+  slackAPI,
   testSlack,
-  slackAPI
-);
+});
 
 export const handle: Handler = handler.handle;
+export const handleTest: Handler = handlerTest.handle;
