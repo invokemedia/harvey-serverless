@@ -25,5 +25,8 @@ const handlerTest = new HarveyHandler({
   testSlack,
 });
 
+// The real handle for posting to Slack channels.
 export const handle: Handler = handler.handle;
+
+// A test handle for sending messages to Slack during development.
 export const handleTest: Handler = handlerTest.handle;
