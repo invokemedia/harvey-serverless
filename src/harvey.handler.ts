@@ -12,6 +12,7 @@ export class HarveyHandler {
     private readonly harvest: HarvestClient,
     private readonly slack: SlackClient,
     private readonly execSlack: SlackClient,
+    private readonly testSlack: SlackClient,
     private readonly slackAPI: WebClient
   ) {}
 
@@ -124,6 +125,9 @@ export class HarveyHandler {
     // } else {
     //   await this.slack.postMessage({ text, attachments });
     // }
+
+    // Post message to test Slack channel
+    await this.testSlack.postMessage({ text, attachments });
   }
 
   async getSlackProfiles() {
