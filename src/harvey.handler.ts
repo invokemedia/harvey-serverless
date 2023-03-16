@@ -12,7 +12,7 @@ export class HarveyHandler {
     private readonly slack: SlackClient
   ) { }
 
-  public handle = async (event: APIGatewayEvent, context: Context, cb: Callback) => {
+  public handle = async () => {
     try {
       // Determine start and end dates
       const from = moment().subtract(6, 'days').format('YYYY-MM-DD');
@@ -30,13 +30,13 @@ export class HarveyHandler {
       // Post message to Slack
       await this.slack.postMessage({ text, attachments });
   
-      cb(null, { statusCode: 200 });
+      //cb(null, { statusCode: 200 });
   
     } catch (e) {
       
       console.log(e.message);
 
-      cb(null, { statusCode: 200 });
+      //cb(null, { statusCode: 200 });
 
     }
   }
