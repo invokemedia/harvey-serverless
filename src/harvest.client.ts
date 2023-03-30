@@ -15,7 +15,7 @@ export class HarvestClient {
   }
 
   getUsers() {
-    return this.client.get('users').then(({ data }) => data.users);
+    return this.client.get('users').then(({ data }) => data.users, (e)=> console.log(e));
   }
 
   getTimeEntries(params: object = {}) {
