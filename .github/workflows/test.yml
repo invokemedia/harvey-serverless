@@ -10,8 +10,4 @@ jobs:
     steps:
       - name: Invoke
         run: echo "sls invoke local -f harvey"
-      # env: 
-      #   HARVEST_ACCOUNT_ID: ${{ secrets.ID }}
-      #   HARVEST_AUTHORIZATION_TOKEN: ${{ secrets.TOKEN }}
-      #   SLACK_WEBHOOK_URL: ${{ secrets.HOOK }}
    
