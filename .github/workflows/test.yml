@@ -8,6 +8,8 @@ jobs:
     name: SLS
     runs-on: ubuntu-latest
     steps:
+      - name: Install
+        run: echo "npm install"
       - name: Invoke
         run: echo "sls invoke local -f harvey"
    
