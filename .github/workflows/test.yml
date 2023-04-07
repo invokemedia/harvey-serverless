@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       run: echo "sls invoke local -f harvey"
-      env: 
-        HARVEST_ACCOUNT_ID: ${{ secrets.ID }}
-        HARVEST_AUTHORIZATION_TOKEN: ${{ secrets.TOKEN }}
-        SLACK_WEBHOOK_URL: ${{ secrets.HOOK }}
+      # env: 
+      #   HARVEST_ACCOUNT_ID: ${{ secrets.ID }}
+      #   HARVEST_AUTHORIZATION_TOKEN: ${{ secrets.TOKEN }}
+      #   SLACK_WEBHOOK_URL: ${{ secrets.HOOK }}
    
