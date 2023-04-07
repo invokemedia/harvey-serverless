@@ -1,6 +1,7 @@
 name: Test
 on:
-  push:
+  pull_request:
+    types: [opened, edited]
     branches:
       - 'main'
 jobs:
@@ -11,5 +12,5 @@ jobs:
       - name: Install
         run: echo "npm install"
       - name: Invoke
-        run: echo "sls invoke local -f harvey"
+        run: echo "sls invoke local -f harvey" #test comment
    
