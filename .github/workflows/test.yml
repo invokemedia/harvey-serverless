@@ -8,8 +8,8 @@ jobs:
     name: SLS
     runs-on: ubuntu-latest
     steps:
-      id: release_notes
-      run: echo "sls invoke local -f harvey"
+      - name: Invoke
+        run: echo "sls invoke local -f harvey"
       # env: 
       #   HARVEST_ACCOUNT_ID: ${{ secrets.ID }}
       #   HARVEST_AUTHORIZATION_TOKEN: ${{ secrets.TOKEN }}
