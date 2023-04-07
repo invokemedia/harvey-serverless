@@ -7,8 +7,11 @@ jobs:
   run_sls:
     name: SLS
     runs-on: ubuntu-latest
-    env: 
+    steps:
+
+      env: 
       HARVEST_ACCOUNT_ID: ${{ secrets.ID }}
       HARVEST_AUTHORIZATION_TOKEN: ${{ secrets.TOKEN }}
       SLACK_WEBHOOK_URL: ${{ secrets.HOOK }}
-    run: echo "sls invoke local -f harvey"
+      run: echo "sls invoke local -f harvey"
+   
